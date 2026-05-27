@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/RyanLindemann/sampleReact/static/css/main.0841104f.css",
+    "main.js": "/RyanLindemann/sampleReact/static/js/main.bea512f8.js",
+    "static/js/453.824a6786.chunk.js": "/RyanLindemann/sampleReact/static/js/453.824a6786.chunk.js",
+    "index.html": "/RyanLindemann/sampleReact/index.html",
+    "main.0841104f.css.map": "/RyanLindemann/sampleReact/static/css/main.0841104f.css.map",
+    "main.bea512f8.js.map": "/RyanLindemann/sampleReact/static/js/main.bea512f8.js.map",
+    "453.824a6786.chunk.js.map": "/RyanLindemann/sampleReact/static/js/453.824a6786.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0841104f.css",
+    "static/js/main.bea512f8.js"
+  ]
+}
