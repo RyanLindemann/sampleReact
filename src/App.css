@@ -1,3 +1,7 @@
+.modal-body-modalRyan {
+  width: 1000px;
+}
+
 .file-drop {
   /* relatively position the container bc the contents are absolute */
   position: relative;
@@ -76,4 +80,10 @@ td, th {
 
 tr:nth-child(even) {
   background-color: #dddddd;
+}
+
+.newRuleWindow {
+  width: 90%;
+  height: 90%;
+  border-style: double;
 }
