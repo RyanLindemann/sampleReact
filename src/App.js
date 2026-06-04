@@ -23,30 +23,18 @@ export const App = () => {
         addRuleItem={addRuleItem}
       />
       <MessageGrid
-        GetMessage={GetMessage}
+        ruleItems={ruleItems}
       />
     </div>
   );
-
-  function GetMessage(title)
-  {
-    const messages = [];
-    for(let i = 0; i < ruleItems.length; i++) {
-      if(title.match(ruleItems[i].rule)) {
-        messages.push(ruleItems[i].message);
-      }
-    }
-
-    if(title !== "Title" && messages.length > 0)
-      return messages[0];
-    else
-      return "";
-  }
 
   function RuleSetup() {
     const cookies = new Cookies();
     let cookieList = cookies.getAll();
     let retCookieList = [];
+    if(Object.values(cookieList).length === 0){
+      cookieList = FillEmptyCookieJar();
+    }
     Object.values(cookieList).forEach(function(cookie,index) {
       retCookieList.push(cookie);
     });
@@ -54,12 +42,28 @@ export const App = () => {
     return retCookieList;
   }
 
-  function GetRuleCookies() {
-    const cookies = new Cookies();
-    let cookieList = cookies.getAll();
-    Object.values(cookieList).forEach(function(cookie,index) {
-      addRuleItem(ruleItems => [...ruleItems, cookie]);
+  function FillEmptyCookieJar() {
+    let cookieList = [];
+
+    cookieList.push({
+      name: "Exec",
+      rule: "(CIO|CIO .*|CTO|CTO .*|CISO|CISO .*|Chief.*|VP.*|SVP.*|EVP.*|President.*|Head of IT.*|Head of Technology.*)",
+      message: "hello exec"
     });
+    
+    cookieList.push({
+      name: "Delivery",
+      rule: "(Director.*|PMO.*|Program.*|Delivery.*|Transformation.*|IT Manager.*|Applications Manager.*)",
+      message: "hello Delivery"
+    });
+    
+    cookieList.push({
+      name: "Technical",
+      rule: "(Architect.*|Engineering Manager.*|Tech Lead.*|Platform.*|SRE.*|Security Lead.*|Data Lead.*)",
+      message: "hello tech"
+    });
+
+    return cookieList;
   }
 
 };
