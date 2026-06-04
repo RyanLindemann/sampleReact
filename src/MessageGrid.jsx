@@ -18,7 +18,8 @@ export const MessageGrid = ({ ruleItems }) => {
             Drop some files here!
           </FileDrop>
         </div>
-        <Button variant="primary" onClick={() => DownloadCsv()}>Press Me</Button>
+        <br />
+        <Button variant="primary" onClick={() => DownloadCsv()}>Download Normalized CSV</Button>
         <table>
           <tbody>
             <tr key={"header"}>
