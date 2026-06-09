@@ -20,7 +20,7 @@ export const App = () => {
       <h4>Use the Rules tab to add/edit rules.</h4>
       <br />
       <Tabs>
-        <TabList>
+        <TabList className='mainTab'>
           <Tab>Content</Tab>
           <Tab>Rules</Tab>
         </TabList>

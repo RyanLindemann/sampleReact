@@ -108,3 +108,10 @@ tr:nth-child(even) {
 .ruleInputWidth {
   width: 100%;
 }
+
+.mainTab {
+  display: inline-block;
+  background-color: lightblue;
+  border: 1px solid black;
+  padding-left: 0px;
+}

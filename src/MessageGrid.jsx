@@ -18,7 +18,9 @@ export const MessageGrid = ({ ruleItems, gridItems, addGridItem }) => {
           </FileDrop>
         </div>
         <br />
-        <Button variant="primary" onClick={() => DownloadCsv()}>Download Normalized CSV</Button>
+        <br />
+        <br />
+        <Button variant="primary" onClick={() => DownloadCsvs()}>Download Normalized CSV</Button>
         <table>
           <tbody>
             <tr hey={"header"}>
@@ -32,7 +34,7 @@ export const MessageGrid = ({ ruleItems, gridItems, addGridItem }) => {
               <th key={"headerNotes"}>Notes</th>
             </tr>
             {gridItems.map(item => 
-            <tr key={"line" + item.name}>
+            <tr key={"line" + item.Name}>
               <td key={"lineCompany" + item.name}>{item.Company}</td>
               <td key={"lineName" + item.name}>{item.Name}</td>
               <td key={"lineTitle" + item.name}>{item.Title}</td>
@@ -132,24 +134,52 @@ export const MessageGrid = ({ ruleItems, gridItems, addGridItem }) => {
     element.click();
 
     document.body.removeChild(element);
-}
+  }
 
-  function DownloadCsv() {
-    var file = "CompanyName,ContactName,Title,Email,PersonaBand,PriorityTier,Notes\n";
-    for(let i = 0; i < gridItems.length; i++) {
-      let company = gridItems[i].Company ? StripNewline(gridItems[i].Company) : "";
-      let name = gridItems[i].Name ? StripNewline(gridItems[i].Name) : "";
-      let title = gridItems[i].Title ? StripNewline(gridItems[i].Title) : "";
-      let email = gridItems[i].Email ? StripNewline(gridItems[i].Email) : "";
-      let personaBand = gridItems[i].PersonaBand ? StripNewline(gridItems[i].PersonaBand) : "";
-      let priorityTier = gridItems[i].PriorityTier ? StripNewline(gridItems[i].PriorityTier) : "";
-      let notes = gridItems[i].Notes ? StripNewline(gridItems[i].Notes) : "";
-      
-      file += `${company},${name},${title},${email}` 
-      + `,${personaBand},${priorityTier},${notes},\n`;
+  function DownloadCsvs() {
+
+    let itemsToBeProcessed = gridItems;
+
+    //create a file for each known rule
+    for(const rule in ruleItems) {
+      let ruleFollowingItems = itemsToBeProcessed.filter(g => g.PersonaBand === ruleItems[rule].name)
+      CreateFile(ruleFollowingItems, ruleItems[rule].name + ".csv");
+
+      itemsToBeProcessed = itemsToBeProcessed.filter(g => g.PersonaBand !== ruleItems[rule].name)
     }
+
+    //create a file for all empty role items
+    let unknownRuleItems = gridItems.filter(g => g.PersonaBand === undefined)
+    CreateFile(unknownRuleItems, "unknownRole.csv");
     
-    download("normalized.csv", file);
+    //create a file for everything else (roles already in the CSV, but not in rule cookies)
+    itemsToBeProcessed = itemsToBeProcessed.filter(g => g.PersonaBand !== undefined)
+    CreateFile(itemsToBeProcessed, "etc.csv");
+  }
+
+  function CreateFile(ruleFollowingItems, fileName) {
+    if(ruleFollowingItems.length > 0) {
+      var file = "CompanyName,ContactName,Title,Email,PersonaBand,PriorityTier,Notes,Message\n";
+      for(let i = 0; i < ruleFollowingItems.length; i++) {
+        file += GetRowText(ruleFollowingItems[i]);
+      }
+
+      download(fileName, file);
+    }
+  }
+
+  function GetRowText(item) {
+    let company = item.Company ? StripNewline(item.Company) : "";
+    let name = item.Name ? StripNewline(item.Name) : "";
+    let title = item.Title ? StripNewline(item.Title) : "";
+    let email = item.Email ? StripNewline(item.Email) : "";
+    let personaBand = item.PersonaBand ? StripNewline(item.PersonaBand) : "";
+    let priorityTier = item.PriorityTier ? StripNewline(item.PriorityTier) : "";
+    let notes = item.Notes ? StripNewline(item.Notes) : "";
+    let message = item.Message ? StripNewline(item.Message) : "";
+    
+    return `${company},${name},${title},${email}` 
+    + `,${personaBand},${priorityTier},${notes},${message}\n`;
   }
 
   function StripNewline(input) {
