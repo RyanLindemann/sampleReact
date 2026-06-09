@@ -16,6 +16,7 @@
     "react-file-drop": "^3.1.6",
     "react-router": "^7.15.1",
     "react-scripts": "5.0.1",
+    "react-tabs": "^6.1.1",
     "universal-cookie": "^8.1.2",
     "web-vitals": "^2.1.4"
   },

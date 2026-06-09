@@ -1,36 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FileDrop } from 'react-file-drop';
 import Button from 'react-bootstrap/Button';
 import './App.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export const MessageGrid = ({ ruleItems }) => {
-  const [gridItems, addGridItem] = useState([]);
+export const MessageGrid = ({ ruleItems, gridItems, addGridItem }) => {
   const styles = { border: '1px solid black', width: 600, color: 'black', padding: 20 };
     return (
       <div>
-        <h1>File Drop</h1>
+        <p>Drop CSV files below to create a table to export.</p>
         <div style={styles}>
           <FileDrop
             onDrop={(files, event) => DropFile(files, event)}
           >
-            Drop some files here!
+            Drop CSV files here!
           </FileDrop>
         </div>
         <br />
         <Button variant="primary" onClick={() => DownloadCsv()}>Download Normalized CSV</Button>
         <table>
           <tbody>
-            <tr key={"header"}>
-              <td key={"headerCompany"}>Company</td>
-              <td key={"headerName"}>Name</td>
-              <td key={"headerTitle"}>Title</td>
-              <td key={"headerEmail"}>Email</td>
-              <td key={"headerPersona"}>Persona</td>
-              <td key={"headerMessage"}>Message</td>
-              <td key={"headerPriority"}>Priority</td>
-              <td key={"headerNotes"}>Notes</td>
+            <tr hey={"header"}>
+              <th key={"headerCompany"}>Company</th>
+              <th key={"headerName"}>Name</th>
+              <th key={"headerTitle"}>Title</th>
+              <th key={"headerEmail"}>Email</th>
+              <th key={"headerPersona"}>Persona</th>
+              <th key={"headerMessage"}>Message</th>
+              <th key={"headerPriority"}>Priority</th>
+              <th key={"headerNotes"}>Notes</th>
             </tr>
             {gridItems.map(item => 
             <tr key={"line" + item.name}>
@@ -138,7 +137,6 @@ export const MessageGrid = ({ ruleItems }) => {
   function DownloadCsv() {
     var file = "CompanyName,ContactName,Title,Email,PersonaBand,PriorityTier,Notes\n";
     for(let i = 0; i < gridItems.length; i++) {
-      console.log("test(" + gridItems[i].Company + ")");
       let company = gridItems[i].Company ? StripNewline(gridItems[i].Company) : "";
       let name = gridItems[i].Name ? StripNewline(gridItems[i].Name) : "";
       let title = gridItems[i].Title ? StripNewline(gridItems[i].Title) : "";
@@ -151,7 +149,7 @@ export const MessageGrid = ({ ruleItems }) => {
       + `,${personaBand},${priorityTier},${notes},\n`;
     }
     
-    download("test.csv", file);
+    download("normalized.csv", file);
   }
 
   function StripNewline(input) {

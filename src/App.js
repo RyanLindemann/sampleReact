@@ -1,30 +1,47 @@
 import React, { useState } from 'react';
 import './App.css';
 import Cookies from 'universal-cookie';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { RuleModal } from './RuleModal.jsx';
+import 'react-tabs/style/react-tabs.css';
+
 import { RuleGrid } from './RuleGrid.jsx';
 import { MessageGrid } from './MessageGrid.jsx';
 
 export const App = () => {
   const [showModal, setShowModal] = useState(false);
   const [ruleItems, addRuleItem] = useState(RuleSetup());
+  const [gridItems, addGridItem] = useState([]);
 
   return (
-    <div> 
-      <RuleModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-      />
-      <RuleGrid
-        ruleItems={ruleItems}
-        setShowModal={setShowModal}
-        addRuleItem={addRuleItem}
-      />
-      <MessageGrid
-        ruleItems={ruleItems}
-      />
+    <div className="fileDropper">
+      <h4>Use the Content tab to upload data, and have it automatically processed.</h4>
+      <h4>Use the Rules tab to add/edit rules.</h4>
+      <br />
+      <Tabs>
+        <TabList>
+          <Tab>Content</Tab>
+          <Tab>Rules</Tab>
+        </TabList>
+        <TabPanel>
+          <MessageGrid
+            ruleItems={ruleItems}
+            gridItems={gridItems}
+            addGridItem={addGridItem}
+          />
+        </TabPanel>
+        <TabPanel>
+          <RuleGrid
+            ruleItems={ruleItems}
+            showModal={showModal}
+            setShowModal={setShowModal}
+            addRuleItem={addRuleItem}
+          />
+        </TabPanel>
+      </Tabs>
+      
+      
     </div>
   );
 
